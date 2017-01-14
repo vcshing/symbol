@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title (click)="refresh(this)">Symbol List
+        <ion-icon name="refresh-circle"></ion-icon>
+    </ion-title>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Type</ion-label>
+      <ion-select [(ngModel)]="type" (ionChange)="updatelist(this)" multiple="true">
+        <ion-option value="" ng-selected="true">ALL</ion-option>
+        <ion-option value="{{symboltype.type_id}}" *ngFor="let symboltype of symboltypes" >{{symboltype.type}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-card  *ngFor="let symbol of symbols" padding >
+    <ion-card-header >
+
+      <!--({{symbol.type}}){{symbol.title}}-->
+   </ion-card-header>
+     <ion-card-content class="item item-text-wrap ion-card-content" [innerHTML]="symbol.symbol">
+
+     </ion-card-content>
+
+     <ion-row no-padding>
+       <ion-col>
+         <button ion-button clear small color="{{symbol.favoritecss}}" icon-left (click)="addfavorite($event, symbol)">
+           <ion-icon name='star'></ion-icon>
+           Favorite {{symbol.favoritecount}}
+         </button>
+       </ion-col>
+       <ion-col text-center>
+         <button ion-button clear small color="default" icon-left (click)="addlike($event, symbol)" >
+           <ion-icon name='ios-thumbs-up'></ion-icon>
+           Like {{symbol.likecount}}
+         </button>
+       </ion-col>
+       <ion-col text-right>
+         <button ion-button clear small color="default" icon-left (click)="shareFb($event, symbol)">
+           <ion-icon name='share-alt'></ion-icon>
+           Copy
+         </button>
+       </ion-col>
+     </ion-row>
+   </ion-card>
+
+
+   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+     <ion-infinite-scroll-content></ion-infinite-scroll-content>
+   </ion-infinite-scroll>
+
+</ion-content>
